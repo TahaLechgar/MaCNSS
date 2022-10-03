@@ -7,7 +7,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class ConnectionFactory {
-    public static final String URL = "jdbc:mysql://localhost:33060/MaCNSS";
+    public static final String URL = "jdbc:mysql://localhost:3306/MaCNSS";
     public static final String USER = "root";
     public static final String PASS = "123";
 
@@ -19,7 +19,7 @@ public class ConnectionFactory {
     public static Connection getConnection() {
         try {
 
-            Class.forName("com.mysql.cj.jdbc.Driver"); // Driver name
+//            Class.forName("com.mysql.cj.jdbc.Driver");
             Connection con = DriverManager.getConnection(
                     URL, USER, PASS);
             System.out.println(
@@ -28,8 +28,6 @@ public class ConnectionFactory {
 
         } catch (SQLException ex) {
             throw new RuntimeException("Error connecting to the database", ex);
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
         }
     }
 }
