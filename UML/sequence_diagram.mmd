@@ -1,0 +1,15 @@
+sequenceDiagram
+    actor Agent
+    Agent->>systéme: ajouter un dossier du patient
+    alt dateConsultation >= 60 jours
+        systéme->>Agent: Dossier refusé
+    else dateConsultation < 60 jours
+        alt consultation esthétique
+            systéme->>Agent: consultation remboursable
+        else consultation non-esthétique
+            systéme->>Medicaments: vérifier le médicament
+            Medicaments->>systéme: taux de remboursement
+            systéme->>Agent: consultation + médicaments remboursable
+        end
+    end
+

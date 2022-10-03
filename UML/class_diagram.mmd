@@ -1,0 +1,45 @@
+classDiagram 
+direction RL
+class Patient{
+    -long matrincule
+    -String fullName
+    -String birthDate
+    -String cin
+    -ArrayList~Conjoint~ conjoints
+}
+
+class Conjoint{
+    -String relationship
+    -String fullName
+    -String birthDate
+}
+
+class Dossier{
+    -String constultationType
+    -ArrayList~Medicament~ medicaments
+    -String depositionDate
+    -String consultationDate
+    -float montant
+    -HashMap~String,float~ attachments
+
+}
+
+class Medicaments{
+    -String codeBare
+
+}
+
+class User{
+    -String username
+    -String password
+    -String firstname
+    -String lastname
+    -String birthdate
+    -enum type
+}
+
+Conjoint "*"--"1" Patient
+Patient "1"--"*"Dossier
+Dossier"*"--"*"Medicaments
+
+
