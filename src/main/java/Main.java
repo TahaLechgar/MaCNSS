@@ -1,16 +1,19 @@
 import Connection.ConnectionFactory;
+import DAO.Consultation;
 import Mail.MailSender;
 import Security.BCrypt;
-import io.github.cdimascio.dotenv.Dotenv;
 
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
-
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 
 public class Main {
     public static void main(String[] args) throws SQLException {
+
+        Consultation.getAllConsultationTypes();
         Connection connection = ConnectionFactory.getConnection();
         Statement statement = connection.createStatement();
         System.out.println(statement);
@@ -23,6 +26,11 @@ public class Main {
 
         boolean matched = BCrypt.checkpw(originalPassword, generatedSecuredPasswordHash);
         System.out.println(matched);
+
+        Display display = new Display();
+        display.addFile();
+
+
 
     }
 }

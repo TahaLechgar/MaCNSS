@@ -17,8 +17,8 @@ public class ConjointDao implements Dao<Conjoint>{
     }
 
     @Override
-    public void save(Conjoint conjoint) {
-
+    public long save(Conjoint conjoint) {
+        return 0;
     }
 
     @Override

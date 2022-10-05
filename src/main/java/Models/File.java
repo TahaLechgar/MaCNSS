@@ -1,5 +1,7 @@
 package Models;
 
+import Enums.State;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -9,7 +11,37 @@ public class File {
     private String depositionDate;
     private String consultationDate;
     private float montant;
+
+    private long patientImm;
     private HashMap<String,Float> attachments;
+
+    private String state;
+
+    public long getPatientImm() {
+        return patientImm;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+
+
+    public File( HashMap<String, Float> attachments, ArrayList<Medicament> medicaments , String constultationType, String depositionDate, String consultationDate, float montant, long patientImm, String state) {
+        this.constultationType = constultationType;
+        this.depositionDate = depositionDate;
+        this.consultationDate = consultationDate;
+        this.montant = montant;
+        this.patientImm = patientImm;
+        this.state = state;
+        this.medicaments = medicaments;
+        this.attachments = attachments;
+
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
 
     public String getConstultationType() {
         return constultationType;
