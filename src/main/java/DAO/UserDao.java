@@ -42,6 +42,21 @@ public class UserDao implements Dao<User> {
                     String email = res.getString("email");
                     String birthdate = res.getString("birthdate");
                     user = new User(username, fullname, birthdate, type, email);
+                    if (user.getType() == UserType.Agent) {
+                        SecureRandom random = new SecureRandom();
+                        String verificationCode = new BigInteger(30, random).toString();
+                        MailSender.sendMail(user.getEmail(), "Password verification", "enter this code to complete the verification " + verificationCode);
+                        System.out.print("Please check your emails and enter the verification code -> ");
+                        while(true){
+                            Scanner scanner = new Scanner(System.in);
+                            String receivedVerificationCode = scanner.nextLine();
+                            if (verificationCode.equals(receivedVerificationCode)) {
+                                return user;
+                            }else{
+                                System.out.print("Invalid verification code -> ");
+                            }
+                        }
+                    }
                     return user;
                 }
             }
