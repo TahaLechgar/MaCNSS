@@ -11,7 +11,7 @@ import java.security.SecureRandom;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.Statement;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
@@ -47,17 +47,21 @@ public class UserDao implements Dao<User> {
                         String verificationCode = new BigInteger(30, random).toString();
                         MailSender.sendMail(user.getEmail(), "Password verification", "enter this code to complete the verification " + verificationCode);
                         System.out.print("Please check your emails and enter the verification code -> ");
-                        while(true){
+                        LocalTime expirationTime = LocalTime.now().plusSeconds(20);
+                        while (LocalTime.now().isBefore(expirationTime)) {
                             Scanner scanner = new Scanner(System.in);
                             String receivedVerificationCode = scanner.nextLine();
                             if (verificationCode.equals(receivedVerificationCode)) {
+                                if (LocalTime.now().isAfter(expirationTime)) {
+                                    System.out.println("Verification code expired!!");
+                                    return null;
+                                }
                                 return user;
-                            }else{
-                                System.out.print("Invalid verification code -> ");
                             }
+                            System.out.print("Invalid verification code -> ");
                         }
-                    }
-                    return user;
+                    } else
+                        return user;
                 }
             }
             System.out.println("Wrong credentials!!");
