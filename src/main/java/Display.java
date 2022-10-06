@@ -58,19 +58,28 @@ public class Display {
         Long conjoint_id = ( conjointIdCheck == 0) ? null : conjointIdCheck;
         System.out.println("conjoint id : " + conjoint_id);
         State state = State.PENDING;
-        float repaymentAmount = 0;
+        float repaymentAmount = consultation.getRefundPrice();
 
+        ArrayList<Medicament> medicaments = null;
+        HashMap<String, Float> attachments = null;
 
-        if(!consultation.isRefundable()){
-            state = State.REFUSED;
-            repaymentAmount = consultation.getRefundPrice();
-            return;
+        if(consultation.isRefundable()){
+//            state = State.REFUSED;
+//            fileDao.saveFile(new File(null, null, consultationType, depositDate, consultationDate, repaymentAmount, patientImm, String.valueOf(state), conjoint_id));
+//            return;
+            medicaments = joinMedicaments();
+            for(Medicament medicament: medicaments){
+                repaymentAmount += medicament.getPrixRemboursement();
+            }
+            attachments = joinAttachments();
+
+            for (Float attachmentPrice : attachments.values()) {
+                repaymentAmount += attachmentPrice;
+            }
+
         }
-        ArrayList<Medicament> medicaments = joinMedicaments();
-        HashMap<String, Float> attachments = joinAttachments();
 
         fileDao.saveFile(new File(attachments, medicaments, consultationType, depositDate, consultationDate, repaymentAmount, patientImm, String.valueOf(state), conjoint_id));
-
     }
 
     private ArrayList<Medicament> joinMedicaments() {

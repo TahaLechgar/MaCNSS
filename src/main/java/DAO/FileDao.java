@@ -35,7 +35,11 @@ public class FileDao implements Dao<File>{
             prepareStatement.setString( 3, file.getConstultationType());
             prepareStatement.setString( 4, file.getDepositionDate());
             prepareStatement.setFloat(  5, file.getMontant());
-            prepareStatement.setLong(6, file.getConjointID());
+            if(file.getConjointID() == null){
+                prepareStatement.setNull(6, Types.BIGINT);
+            }else{
+                prepareStatement.setLong(6, file.getConjointID());
+            }
 
 
             int affectedRows = prepareStatement.executeUpdate();
@@ -61,53 +65,52 @@ public class FileDao implements Dao<File>{
             System.out.println("File is not saved .. something went wrong");
             return;
         }
-        for(Medicament medicament: file.getMedicaments()){
-            try{
-                Connection connection = ConnectionFactory.getConnection();
-                String query = "insert into Prescription (medicationId, dossierId, consultationDate, quantity)" +
-                        "values (?, ?, ?, ?)";
+        if(file.getMedicaments() != null){
+            for(Medicament medicament: file.getMedicaments()){
+                try{
+                    Connection connection = ConnectionFactory.getConnection();
+                    String query = "insert into Prescription (medicationId, dossierId, consultationDate, quantity)" +
+                            "values (?, ?, ?, ?)";
 
-                PreparedStatement statement = connection.prepareStatement(query);
+                    PreparedStatement statement = connection.prepareStatement(query);
 
-                statement.setLong(1, medicament.getCodeBare());
-                statement.setLong(2, newFileID);
-                statement.setString(3, file.getConsultationDate());
-                statement.setInt(4, 1);
+                    statement.setLong(1, medicament.getCodeBare());
+                    statement.setLong(2, newFileID);
+                    statement.setString(3, file.getConsultationDate());
+                    statement.setInt(4, 1);
 
-                int affectedRows = statement.executeUpdate();
+                    statement.executeUpdate();
 
-
-
-            }catch(Exception ex){
-                System.out.println(ex.getMessage());
+                }catch(Exception ex){
+                    System.out.println(ex.getMessage());
+                }
             }
         }
+        if(file.getAttachments() != null){
+
+            for (HashMap.Entry<String, Float> attachment : file.getAttachments().entrySet()) {
+                String name = attachment.getKey();
+                Float price = attachment.getValue();
+                try{
+                    Connection connection = ConnectionFactory.getConnection();
+                    String query = "insert into Attachement (type, dossierId, price)" +
+                            "values (?, ?, ?)";
+
+                    PreparedStatement statement = connection.prepareStatement(query);
+
+                    statement.setString(1, name);
+                    statement.setLong(2, newFileID);
+                    statement.setFloat(3, price);
 
 
-        for (HashMap.Entry<String, Float> attachment : file.getAttachments().entrySet()) {
-            String name = attachment.getKey();
-            Float price = attachment.getValue();
-            try{
-                Connection connection = ConnectionFactory.getConnection();
-                String query = "insert into Attachement (type, dossierId, price)" +
-                        "values (?, ?, ?)";
+                    int affectedRows = statement.executeUpdate();
 
-                PreparedStatement statement = connection.prepareStatement(query);
+                }catch(Exception ex){
+                    System.out.println(ex.getMessage());
+                }
 
-                statement.setString(1, name);
-                statement.setLong(2, newFileID);
-                statement.setFloat(3, price);
-
-
-                int affectedRows = statement.executeUpdate();
-
-            }catch(Exception ex){
-                System.out.println(ex.getMessage());
             }
-
         }
-
-
     }
 
     @Override
