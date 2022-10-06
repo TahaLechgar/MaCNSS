@@ -8,6 +8,7 @@ import Models.Medicament;
 import java.sql.*;
 import java.util.HashMap;
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Optional;
 
 public class FileDao implements Dao<File>{
@@ -17,7 +18,7 @@ public class FileDao implements Dao<File>{
     }
 
     @Override
-    public List<File> getAll() {
+    public ArrayList<File> getAll() {
         return null;
     }
 
