@@ -127,7 +127,7 @@ public class Display {
         System.out.println("Choose conjoint from the list : ");
         int i = 1;
         for (Conjoint conjoint: conjoints){
-            System.out.println(" 1 - " + conjoint.getFullName());
+            System.out.println( " " + i + " - " + conjoint.getFullName());
             i++;
         }
         int choice = Integer.parseInt(scanner.nextLine());
