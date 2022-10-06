@@ -1,4 +1,5 @@
 import DAO.UserDao;
+import Enums.UserType;
 import Models.User;
 
 import java.util.Optional;
@@ -9,26 +10,29 @@ import java.util.concurrent.ExecutionException;
 public class Main {
     public static void main(String[] args) {
         try{
-            long id = 13;
             UserDao userDao = new UserDao();
-            Optional<User> user = userDao.get(id);
-
-            if (user.isPresent()) {
-                String[] params = new String[4];
-                System.out.println(user.get());
-
-                params[0] = getNewOrKeepOld(user.get().getFullname(), "fullName");
-
-                params[1] = getNewOrKeepOld(user.get().getBirthdate(), "Birthdate");
-
-                params[2] = getNewOrKeepOld(user.get().getEmail(), "Email");
-
-                params[3] = String.valueOf(id);
-
-                userDao.update(user.get(), params);
-            } else {
-                System.out.println("no user was found with the given id");
-            }
+            User user = new User("DeeUser", "new user", "1980-08-06", UserType.Agent, "new.user@email.com");
+            userDao.save(user);
+//            long id = 13;
+//            UserDao userDao = new UserDao();
+//            Optional<User> user = userDao.get(id);
+//
+//            if (user.isPresent()) {
+//                String[] params = new String[4];
+//                System.out.println(user.get());
+//
+//                params[0] = getNewOrKeepOld(user.get().getFullname(), "fullName");
+//
+//                params[1] = getNewOrKeepOld(user.get().getBirthdate(), "Birthdate");
+//
+//                params[2] = getNewOrKeepOld(user.get().getEmail(), "Email");
+//
+//                params[3] = String.valueOf(id);
+//
+//                userDao.update(user.get(), params);
+//            } else {
+//                System.out.println("no user was found with the given id");
+//            }
         }catch (Exception e){
             System.out.println(e.getMessage());
         }
