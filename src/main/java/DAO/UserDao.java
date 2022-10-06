@@ -69,7 +69,7 @@ public class UserDao implements Dao<User> {
                         String verificationCode = new BigInteger(30, random).toString();
                         MailSender.sendMail(user.getEmail(), "Password verification", "enter this code to complete the verification " + verificationCode);
                         System.out.print("Please check your emails and enter the verification code -> ");
-                        LocalTime expirationTime = LocalTime.now().plusSeconds(20);
+                        LocalTime expirationTime = LocalTime.now().plusMinutes(5);
                         while (LocalTime.now().isBefore(expirationTime)) {
                             Scanner scanner = new Scanner(System.in);
                             String receivedVerificationCode = scanner.nextLine();
