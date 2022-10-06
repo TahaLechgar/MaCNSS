@@ -78,8 +78,8 @@ public class UserDao implements Dao<User> {
     }
 
     @Override
-    public void save(User user) {
-
+    public long save(User user) {
+        return 0;
     }
 
     @Override

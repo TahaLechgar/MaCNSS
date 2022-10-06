@@ -17,8 +17,8 @@ public class PatientDao implements Dao<Patient>{
     }
 
     @Override
-    public void save(Patient patient) {
-
+    public long save(Patient patient) {
+        return 0;
     }
 
     @Override

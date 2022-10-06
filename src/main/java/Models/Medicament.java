@@ -1,23 +1,28 @@
 package Models;
 
+
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Stream;
 
 public class Medicament {
-    private String codeBare;
+    public long codeBare;
     private String medicamentName;
     private Float prixPublicMaroc;
     private Float prixRemboursement;
 
-    public String getCodeBare() {
+    public Medicament(long codeBare, String medicamentName, Float prixPublicMaroc, Float prixRemboursement) {
+        this.codeBare = codeBare;
+        this.medicamentName = medicamentName;
+        this.prixPublicMaroc = prixPublicMaroc;
+        this.prixRemboursement = prixRemboursement;
+    }
+
+    public long getCodeBare() {
         return codeBare;
     }
 
-    public void setCodeBare(String codeBare) {
-        this.codeBare = codeBare;
-    }
 
     public String getMedicamentName() {
         return medicamentName;
