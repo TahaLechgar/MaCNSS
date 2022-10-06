@@ -1,18 +1,13 @@
 import Connection.ConnectionFactory;
-import DAO.ConjointDao;
 import DAO.Consultation;
 import DAO.FileDao;
-import Mail.MailSender;
 import Models.Attachment;
-import Models.Conjoint;
 import Models.Medicament;
 import Security.BCrypt;
 
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Optional;
 
@@ -39,6 +34,9 @@ public class Main {
         attachmentsOptional.ifPresent(System.out::println);
         Optional<ArrayList<Medicament>> medicamentsOptional = fileDao.getMedicamentsOfFile(22);
         medicamentsOptional.ifPresent(System.out::println);
+
+        System.out.println(fileDao.getAll());
+        display.displayAllFiles(1);
 //        display.addFile();
 
     }

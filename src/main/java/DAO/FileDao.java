@@ -20,6 +20,31 @@ public class FileDao implements Dao<File>{
 
     @Override
     public List<File> getAll() {
+
+        try{
+            Connection connection = ConnectionFactory.getConnection();
+            String sql = "select * from Dossier";
+            PreparedStatement prepareStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            ResultSet resultSet = prepareStatement.executeQuery();
+            List<File> allFiles = new ArrayList<>();
+
+            while(resultSet.next()){
+                String depositDate = resultSet.getString("depositDate");
+                String consultationType = resultSet.getString("consultationType");
+                float repaymentAmount = resultSet.getFloat("repaymentAmount");
+                long patientImm = resultSet.getLong("patientImm");
+                String state = resultSet.getString("state");
+                long id = resultSet.getLong("id");
+                File newFile = new File(id, null, null, consultationType, depositDate, null, repaymentAmount, patientImm, state, null);
+                allFiles.add(newFile);
+            }
+
+            return allFiles;
+
+        }catch(Exception ex){
+            System.out.println(ex.getMessage());
+        }
+
         return null;
     }
 
@@ -171,6 +196,39 @@ public class FileDao implements Dao<File>{
         }
         return Optional.empty();
     }
+
+
+
+    public List<File> getFileOfPatient(long patientImm) {
+
+        try{
+            Connection connection = ConnectionFactory.getConnection();
+            String sql = "select * from Dossier where patientImm = ?";
+            PreparedStatement prepareStatement = connection.prepareStatement(sql);
+            prepareStatement.setLong(1, patientImm);
+            ResultSet resultSet = prepareStatement.executeQuery();
+            List<File> allFiles = new ArrayList<>();
+
+            while(resultSet.next()){
+                String depositDate = resultSet.getString("depositDate");
+                String consultationType = resultSet.getString("consultationType");
+                float repaymentAmount = resultSet.getFloat("repaymentAmount");
+                long patientImmatricule = resultSet.getLong("patientImm");
+                String state = resultSet.getString("state");
+                long id = resultSet.getLong("id");
+                File newFile = new File(id, null, null, consultationType, depositDate, null, repaymentAmount, patientImm, state, null);
+                allFiles.add(newFile);
+            }
+
+            return allFiles;
+
+        }catch(Exception ex){
+            System.out.println(ex.getMessage());
+        }
+
+        return null;
+    }
+
 
     @Override
     public void update(File file, String[] params) {
