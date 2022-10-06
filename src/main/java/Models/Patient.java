@@ -50,4 +50,12 @@ public class Patient {
         this.email = email;
         this.cin = cin;
     }
+
+    @Override
+    public String toString() {
+        return "FullName : " + fullName
+                + "\nbirthdate : " + birthdate
+                + "\nemail : " + email
+                + "\ncin : " + cin;
+    }
 }
