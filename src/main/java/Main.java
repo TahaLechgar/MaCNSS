@@ -1,8 +1,11 @@
 import Connection.ConnectionFactory;
 import DAO.ConjointDao;
 import DAO.Consultation;
+import DAO.FileDao;
 import Mail.MailSender;
+import Models.Attachment;
 import Models.Conjoint;
+import Models.Medicament;
 import Security.BCrypt;
 
 import java.sql.Connection;
@@ -10,6 +13,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Optional;
 
 
 public class Main {
@@ -29,7 +34,12 @@ public class Main {
         System.out.println(matched);
 
         Display display = new Display();
-        display.addFile();
+        FileDao fileDao = new FileDao();
+        Optional<ArrayList<Attachment>> attachmentsOptional = fileDao.getAttachmentsOfFile(22);
+        attachmentsOptional.ifPresent(System.out::println);
+        Optional<ArrayList<Medicament>> medicamentsOptional = fileDao.getMedicamentsOfFile(22);
+        medicamentsOptional.ifPresent(System.out::println);
+//        display.addFile();
 
     }
 }

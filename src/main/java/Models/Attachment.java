@@ -12,6 +12,7 @@ public class Attachment {
         this.type = type;
     }
 
+
     public long getDossierID() {
         return dossierID;
     }

@@ -104,7 +104,6 @@ public class FileDao implements Dao<File>{
                     statement.setLong(2, newFileID);
                     statement.setFloat(3, price);
 
-
                     int affectedRows = statement.executeUpdate();
 
                 }catch(Exception ex){
@@ -117,6 +116,7 @@ public class FileDao implements Dao<File>{
 
     public Optional<ArrayList<Attachment>> getAttachmentsOfFile(long dossierId){
         try{
+
             Connection connection = ConnectionFactory.getConnection();
             String query = "select type, dossierId, price from Attachement where dossierId = ?;";
 
@@ -134,6 +134,37 @@ public class FileDao implements Dao<File>{
             }
 
             return Optional.of(attachments);
+
+        }catch(Exception ex){
+            System.out.println(ex.getMessage());
+        }
+        return Optional.empty();
+    }
+
+    public Optional<ArrayList<Medicament>> getMedicamentsOfFile(long dossierId){
+        try{
+
+            Connection connection = ConnectionFactory.getConnection();
+            String query = "select Medications.name, Medications.price ,Medications.codeBarre, Medications.repaymentPrice\n" +
+                    "from Medications join Prescription P on Medications.codeBarre = P.medicationId\n" +
+                    "where P.dossierId = ?;";
+
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setLong(1, dossierId);
+
+            ResultSet resultSet = statement.executeQuery();
+
+            ArrayList<Medicament> medicaments = new ArrayList<>();
+
+            while(resultSet.next()){
+                float price = resultSet.getFloat("price");
+                String name = resultSet.getString("name");
+                float repaymentPrice = resultSet.getFloat("repaymentPrice");
+                long codeBarre = resultSet.getLong("codeBarre");
+                medicaments.add(new Medicament(codeBarre, name, price, repaymentPrice));
+            }
+
+            return Optional.of(medicaments);
 
         }catch(Exception ex){
             System.out.println(ex.getMessage());
