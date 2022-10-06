@@ -11,15 +11,16 @@ public class Main {
     public static void main(String[] args) {
         try{
             UserDao userDao = new UserDao();
+            System.out.println(userDao.getAll());
 //            User user = new User("DeeUser", "new user", "1980-08-06", UserType.Agent, "new.user@email.com");
 //            userDao.save(user);
-            long id = 13;
-            Optional<User> user = userDao.get(id);
-            if(user.isPresent()){
-                userDao.delete(user.get());
-            }else{
-                System.out.println("No user was found!!!");
-            }
+//            long id = 13;
+//            Optional<User> user = userDao.get(id);
+//            if(user.isPresent()){
+//                userDao.delete(user.get());
+//            }else{
+//                System.out.println("No user was found!!!");
+//            }
 //
 //            if (user.isPresent()) {
 //                String[] params = new String[4];
@@ -37,9 +38,7 @@ public class Main {
 //            } else {
 //                System.out.println("no user was found with the given id");
 //            }
-        }catch (Exception e){
-            System.out.println(e.getMessage());
-        }
+
 //        User user = userDao.getUserForAuth("agent001", "pwd", UserType.Agent);
 //        if(user != null){
 //            System.out.println("Authenticated successfully");
@@ -54,6 +53,9 @@ public class Main {
 //
 //        boolean matched = BCrypt.checkpw(originalPassword, generatedSecuredPasswordHash);
 //        System.out.println(matched);
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
     }
 
     // TODO keep this method
