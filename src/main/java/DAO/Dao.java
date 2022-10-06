@@ -10,7 +10,7 @@ public interface Dao<T> {
 
     ArrayList<T> getAll();
 
-    void save(T t);
+    long save(T t);
 
     void update(T t, String[] params);
 

@@ -22,11 +22,8 @@ public class ConnectionFactory {
             USER = dotenv.get("USER");
             PASS = dotenv.get("PASSWORD");
 //            Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection con = DriverManager.getConnection(
+            return DriverManager.getConnection(
                     URL, USER, PASS);
-            System.out.println(
-                    "Connection Established successfully");
-            return con;
 
         } catch (SQLException ex) {
             throw new RuntimeException("Error connecting to the database", ex);
