@@ -2,7 +2,7 @@ package DAO;
 
 import Models.Patient;
 
-import java.util.List;
+import java.util.ArrayList;
 import java.util.Optional;
 
 public class PatientDao implements Dao<Patient>{
@@ -12,7 +12,7 @@ public class PatientDao implements Dao<Patient>{
     }
 
     @Override
-    public List<Patient> getAll() {
+    public ArrayList<Patient> getAll() {
         return null;
     }
 

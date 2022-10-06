@@ -11,8 +11,9 @@ import java.security.SecureRandom;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import java.time.LocalTime;
-import java.util.List;
+import java.util.ArrayList;
 import java.util.Optional;
 import java.util.Scanner;
 
@@ -95,7 +96,7 @@ public class UserDao implements Dao<User> {
     }
 
     @Override
-    public List<User> getAll() {
+    public ArrayList<User> getAll() {
         return null;
     }
 
