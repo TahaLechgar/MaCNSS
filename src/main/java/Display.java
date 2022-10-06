@@ -1,11 +1,14 @@
+import DAO.ConjointDao;
 import DAO.Consultation;
 import DAO.FileDao;
 import DAO.MedicamentDao;
 import Enums.Attachments;
 import Enums.State;
+import Models.Conjoint;
 import Models.File;
 import Models.Medicament;
 
+import java.sql.SQLOutput;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -51,6 +54,8 @@ public class Display {
         String consultationDate = chooseConsultationDate();
         String depositDate = LocalDate.now().toString();
         long patientImm = enterPatientImm();
+        long conjoint_id = conjoint(patientImm);
+        System.out.println("conjoint id : " + conjoint_id);
         State state = State.PENDING;
         float repaymentAmount = 0;
 
@@ -97,8 +102,48 @@ public class Display {
     }
 
     private long enterPatientImm(){
-        System.out.println("Enter patient Imm");
+        System.out.println("Enter patient Matriculate :");
         return Long.parseLong(scanner.nextLine());
+    }
+
+
+
+    private boolean isConjoint(){
+        System.out.println("This file is for : ");
+        System.out.println(" 1 - patient.");
+        System.out.println(" 2 - conjoint.");
+        int choice = Integer.parseInt(scanner.nextLine());
+        while (choice != 1 && choice != 2){
+            choice = Integer.parseInt(scanner.nextLine());
+        }
+        return choice == 2;
+    }
+
+    private long chooseConjoint(long patientImm){
+        ArrayList<Conjoint> conjoints;
+        ConjointDao conjointDao = new ConjointDao();
+
+        conjoints = (ArrayList<Conjoint>) conjointDao.getConjointsForPatient(patientImm);
+        System.out.println("Choose conjoint from the list : ");
+        int i = 1;
+        for (Conjoint conjoint: conjoints){
+            System.out.println(" 1 - " + conjoint.getFullName());
+            i++;
+        }
+        int choice = Integer.parseInt(scanner.nextLine());
+        while (choice >=i || choice < 1){
+            choice = Integer.parseInt(scanner.nextLine());
+        }
+        return conjoints.get(choice - 1).getId();
+    }
+
+
+
+    private long conjoint(long patientImm){
+        if(!isConjoint()){
+            return 0;
+        }
+        return chooseConjoint(patientImm);
     }
 
     private int chooseConsultation(){

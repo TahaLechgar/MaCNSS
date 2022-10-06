@@ -1,6 +1,8 @@
 import Connection.ConnectionFactory;
+import DAO.ConjointDao;
 import DAO.Consultation;
 import Mail.MailSender;
+import Models.Conjoint;
 import Security.BCrypt;
 
 import java.sql.Connection;
@@ -29,8 +31,6 @@ public class Main {
 
         Display display = new Display();
         display.addFile();
-
-
 
     }
 }
