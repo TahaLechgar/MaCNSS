@@ -11,11 +11,15 @@ public class Main {
     public static void main(String[] args) {
         try{
             UserDao userDao = new UserDao();
-            User user = new User("DeeUser", "new user", "1980-08-06", UserType.Agent, "new.user@email.com");
-            userDao.save(user);
-//            long id = 13;
-//            UserDao userDao = new UserDao();
-//            Optional<User> user = userDao.get(id);
+//            User user = new User("DeeUser", "new user", "1980-08-06", UserType.Agent, "new.user@email.com");
+//            userDao.save(user);
+            long id = 13;
+            Optional<User> user = userDao.get(id);
+            if(user.isPresent()){
+                userDao.delete(user.get());
+            }else{
+                System.out.println("No user was found!!!");
+            }
 //
 //            if (user.isPresent()) {
 //                String[] params = new String[4];

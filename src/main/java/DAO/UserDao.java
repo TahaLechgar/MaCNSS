@@ -124,9 +124,9 @@ public class UserDao implements Dao<User> {
 
             statement.setString(6, user.getEmail());
 
-            if(statement.executeUpdate() == 1) {
+            if (statement.executeUpdate() == 1) {
                 System.out.println("User added successfully!!");
-            }else{
+            } else {
                 System.out.println("Something went wrong!!!");
             }
 
@@ -164,6 +164,55 @@ public class UserDao implements Dao<User> {
 
     @Override
     public void delete(User user) {
+        try {
+            if (user == null)
+                return;
+            Connection connection = ConnectionFactory.getConnection();
+            String query = "delete from User where username like ?";
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setString(1, user.getUsername());
+            if(statement.executeUpdate() == 1){
+                System.out.println("User deleted successfully!!");
 
+            }else{
+                System.out.println("Something went wrong!!!");
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
