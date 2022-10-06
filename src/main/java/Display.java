@@ -63,22 +63,22 @@ public class Display {
         ArrayList<Medicament> medicaments = null;
         HashMap<String, Float> attachments = null;
 
-        if(consultation.isRefundable()){
-//            state = State.REFUSED;
-//            fileDao.saveFile(new File(null, null, consultationType, depositDate, consultationDate, repaymentAmount, patientImm, String.valueOf(state), conjoint_id));
-//            return;
-            medicaments = joinMedicaments();
-            for(Medicament medicament: medicaments){
-                repaymentAmount += medicament.getPrixRemboursement();
-            }
-            attachments = joinAttachments();
+        if(isConsultationExpired(consultationDate)){
+            state = State.REFUSED;
+            repaymentAmount = 0;
+        }else{
+            if(consultation.isRefundable()){
+                medicaments = joinMedicaments();
+                for(Medicament medicament: medicaments){
+                    repaymentAmount += medicament.getPrixRemboursement();
+                }
+                attachments = joinAttachments();
 
-            for (Float attachmentPrice : attachments.values()) {
-                repaymentAmount += attachmentPrice;
+                for (Float attachmentPrice : attachments.values()) {
+                    repaymentAmount += attachmentPrice;
+                }
             }
-
         }
-
         fileDao.saveFile(new File(attachments, medicaments, consultationType, depositDate, consultationDate, repaymentAmount, patientImm, String.valueOf(state), conjoint_id));
     }
 
@@ -195,6 +195,22 @@ public class Display {
             attachments.put(String.valueOf(chosenAttachment), attachmentPrice);
 
         }
+    }
+
+    private boolean isConsultationExpired(String consultationDate){
+
+        String[] splitedDate = consultationDate.split("-", 0);
+
+        LocalDate currentDate = LocalDate.now();
+        LocalDate currentDateMinus2Months = currentDate.minusMonths(2);
+
+        LocalDate date1 = LocalDate.of(
+                Integer.parseInt(splitedDate[0]),
+                Integer.parseInt(splitedDate[1]),
+                Integer.parseInt(splitedDate[2])
+        );
+
+        return date1.isBefore(currentDateMinus2Months);
     }
 
 }
