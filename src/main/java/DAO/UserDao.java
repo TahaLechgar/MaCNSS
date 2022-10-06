@@ -97,7 +97,26 @@ public class UserDao implements Dao<User> {
 
     @Override
     public ArrayList<User> getAll() {
-        return null;
+        try{
+            Connection connection = ConnectionFactory.getConnection();
+            String query = "select username, fullName, type, birthDate, email from User";
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(query);
+            ArrayList<User> users = new ArrayList<>();
+            while (resultSet.next()){
+                UserType type = resultSet.getString("type").equalsIgnoreCase("admin") ? UserType.Admin : UserType.Agent;
+                String username = resultSet.getString("username");
+                String fullname = resultSet.getString("fullname");
+                String birthdate = resultSet.getString("birthdate");
+                String email     = resultSet.getString("email");
+
+                users.add(new User(username, fullname, birthdate, type, email));
+            }
+            return users;
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+            return null;
+        }
     }
 
     @Override
