@@ -20,7 +20,6 @@ public class Main {
         Statement statement = connection.createStatement();
         System.out.println(statement);
 
-//        MailSender.sendMail("tahamr08@gmail.com", "Message subject", "Message body body body");
 
         String originalPassword = "password";
         String generatedSecuredPasswordHash = BCrypt.hashpw(originalPassword, BCrypt.gensalt(12));

@@ -1,11 +1,13 @@
 package DAO;
 
+import Models.Attachment;
 import Models.File;
 
 import Connection.ConnectionFactory;
 import Models.Medicament;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
@@ -111,6 +113,32 @@ public class FileDao implements Dao<File>{
 
             }
         }
+    }
+
+    public Optional<ArrayList<Attachment>> getAttachmentsOfFile(long dossierId){
+        try{
+            Connection connection = ConnectionFactory.getConnection();
+            String query = "select type, dossierId, price from Attachement where dossierId = ?;";
+
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setLong(1, dossierId);
+
+            ResultSet resultSet = statement.executeQuery();
+
+            ArrayList<Attachment> attachments = new ArrayList<>();
+
+            while(resultSet.next()){
+                float price = resultSet.getFloat("price");
+                String type = resultSet.getString("type");
+                attachments.add(new Attachment(dossierId, price,type));
+            }
+
+            return Optional.of(attachments);
+
+        }catch(Exception ex){
+            System.out.println(ex.getMessage());
+        }
+        return Optional.empty();
     }
 
     @Override
