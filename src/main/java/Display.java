@@ -54,7 +54,8 @@ public class Display {
         String consultationDate = chooseConsultationDate();
         String depositDate = LocalDate.now().toString();
         long patientImm = enterPatientImm();
-        long conjoint_id = conjoint(patientImm);
+        long conjointIdCheck = conjoint(patientImm);
+        Long conjoint_id = ( conjointIdCheck == 0) ? null : conjointIdCheck;
         System.out.println("conjoint id : " + conjoint_id);
         State state = State.PENDING;
         float repaymentAmount = 0;
@@ -68,7 +69,7 @@ public class Display {
         ArrayList<Medicament> medicaments = joinMedicaments();
         HashMap<String, Float> attachments = joinAttachments();
 
-        fileDao.saveFile(new File(attachments, medicaments, consultationType, depositDate, consultationDate, repaymentAmount, patientImm, String.valueOf(state)));
+        fileDao.saveFile(new File(attachments, medicaments, consultationType, depositDate, consultationDate, repaymentAmount, patientImm, String.valueOf(state), conjoint_id));
 
     }
 

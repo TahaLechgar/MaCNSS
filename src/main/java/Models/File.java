@@ -13,6 +13,8 @@ public class File {
     private float montant;
 
     private long patientImm;
+
+    private Long conjointID;
     private HashMap<String,Float> attachments;
 
     private String state;
@@ -27,7 +29,7 @@ public class File {
 
 
 
-    public File( HashMap<String, Float> attachments, ArrayList<Medicament> medicaments , String constultationType, String depositionDate, String consultationDate, float montant, long patientImm, String state) {
+    public File( HashMap<String, Float> attachments, ArrayList<Medicament> medicaments , String constultationType, String depositionDate, String consultationDate, float montant, long patientImm, String state, Long conjointID) {
         this.constultationType = constultationType;
         this.depositionDate = depositionDate;
         this.consultationDate = consultationDate;
@@ -36,7 +38,11 @@ public class File {
         this.state = state;
         this.medicaments = medicaments;
         this.attachments = attachments;
+        this.conjointID = conjointID;
+    }
 
+    public Long getConjointID() {
+        return conjointID;
     }
 
     public void setState(String state) {

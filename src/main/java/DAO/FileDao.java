@@ -26,8 +26,8 @@ public class FileDao implements Dao<File>{
         try{
             Connection connection = ConnectionFactory.getConnection();
 
-            String sql = "INSERT into Dossier (state, patientImm, consultationType, depositDate,  repaymentAmount) " +
-                        "values (?, ?, ?, ?, ?)";
+            String sql = "INSERT into Dossier (state, patientImm, consultationType, depositDate,  repaymentAmount, conjoint_ID) " +
+                        "values (?, ?, ?, ?, ?, ?)";
 
             PreparedStatement prepareStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             prepareStatement.setString( 1, file.getState());
@@ -35,6 +35,8 @@ public class FileDao implements Dao<File>{
             prepareStatement.setString( 3, file.getConstultationType());
             prepareStatement.setString( 4, file.getDepositionDate());
             prepareStatement.setFloat(  5, file.getMontant());
+            prepareStatement.setLong(6, file.getConjointID());
+
 
             int affectedRows = prepareStatement.executeUpdate();
             System.out.println("Affected rows : " + affectedRows);
