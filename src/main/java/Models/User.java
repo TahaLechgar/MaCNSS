@@ -57,10 +57,10 @@ public class User {
 
     @Override
     public String toString() {
-        return "fullname : " + fullname
-        + "\nusername : " + username
-        + "\nbirthdate : " + birthdate
-        + "\ntype : " + type
-        + "\nemail : " + email;
+        return "username : " + username
+                + "\nfullname : " + fullname
+                + "\nbirthdate : " + birthdate
+                + "\ntype : " + type
+                + "\nemail : " + email;
     }
 }
