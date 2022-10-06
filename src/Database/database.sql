@@ -88,3 +88,5 @@ insert ignore into Conjoint ( patientImm, fullName, relationship, birthDate) val
 insert ignore into Conjoint ( patientImm, fullName, relationship, birthDate) values (3, 'Abdelali Ait-gaba', 'parent', '2020-08-02');
 
 
+alter table Dossier add column conjoint_ID bigint;
+alter table Dossier add constraint conjoint_FK FOREIGN KEY (conjoint_ID) REFERENCES Conjoint(id);
