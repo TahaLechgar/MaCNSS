@@ -120,21 +120,21 @@ public class UserDao implements Dao<User> {
     }
 
     @Override
-    public void save(User user) {
+    public long save(User user) {
         try {
             if (user == null)
-                return;
+                return -1;
             Connection connection = ConnectionFactory.getConnection();
             Scanner scanner = new Scanner(System.in);
             String query = "insert into User (username, password, fullName, type, birthDate, email) values(?, ?, ?, ?, ?, ?)";
-            PreparedStatement statement = connection.prepareStatement(query);
+            PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
             System.out.print("Enter a password -> ");
             String password = scanner.nextLine();
 
             statement.setString(1, user.getUsername());
 
-            String hashedPasswod = BCrypt.hashpw(password, BCrypt.gensalt(12));
-            statement.setString(2, hashedPasswod);
+            String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt(12));
+            statement.setString(2, hashedPassword);
 
             statement.setString(3, user.getFullname());
 
@@ -144,19 +144,25 @@ public class UserDao implements Dao<User> {
 
             statement.setString(6, user.getEmail());
 
-            if (statement.executeUpdate() == 1) {
+            int rowsAffected = statement.executeUpdate();
+
+            if (rowsAffected == 1) {
+                ResultSet resultSet = statement.getGeneratedKeys();
                 System.out.println("User added successfully!!");
+                return resultSet.getLong("id");
             } else {
                 System.out.println("Something went wrong!!!");
+                return -1;
             }
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
+            return -1;
         }
     }
 
     /**
-     * params ( usrname, fullname, birthdate, email, id)
+     * params ( username, fullname, birthdate, email, id)
      */
     @Override
     public void update(User user, String[] params) {
