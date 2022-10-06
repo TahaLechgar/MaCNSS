@@ -5,11 +5,11 @@ import Enums.UserType;
 public class User {
 
     private String username;
-    private String password;
-    private String firstname;
-    private String lastname;
+    private String fullname;
     private String birthdate;
     private UserType type;
+
+    private String email;
 
     public String getUsername() {
         return username;
@@ -19,28 +19,12 @@ public class User {
         this.username = username;
     }
 
-    public String getPassword() {
-        return password;
+    public String getFullname() {
+        return fullname;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getFirstname() {
-        return firstname;
-    }
-
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
-    }
-
-    public String getLastname() {
-        return lastname;
-    }
-
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
+    public void setFullname(String fullname) {
+        this.fullname = fullname;
     }
 
     public String getBirthdate() {
@@ -55,11 +39,28 @@ public class User {
         return type;
     }
 
-    public void setType(UserType type) {
-        this.type = type;
+    public String getEmail() {
+        return email;
     }
 
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
+    public User(String username, String fullname, String birthdate, UserType type, String email) {
+        this.username = username;
+        this.fullname = fullname;
+        this.birthdate = birthdate;
+        this.type = type;
+        this.email = email;
+    }
 
-
+    @Override
+    public String toString() {
+        return "fullname : " + fullname
+        + "\nusername : " + username
+        + "\nbirthdate : " + birthdate
+        + "\ntype : " + type
+        + "\nemail : " + email;
+    }
 }
