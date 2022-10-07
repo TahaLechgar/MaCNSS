@@ -58,18 +58,28 @@ public class Display {
             }
             switch (choice){
                 case 1 -> addFile();
-                case 2 -> displayAllFiles(null);
+                case 2 -> displayAllFilesForAgent();
                 case 3 -> validateFile();
             }
         }
+    }
 
+    public void patientWorkFLow(long patientImm){
+
+    }
+
+    private void displayAllFilesForAgent(){
+        displayAllFiles(null, false);
+    }
+    private void displayAllFilesForPatient(long patientImm){
+        displayAllFiles(patientImm, false);
     }
 
     private void validateFile(){
-
+        displayAllFiles(null, true);
     }
 
-    public void displayAllFiles(Integer patientImm){
+    public void displayAllFiles(Long patientImm, boolean validate){
 
         FileDao fileDao = new FileDao();
         List<File> files;
@@ -85,7 +95,12 @@ public class Display {
             choice = Integer.parseInt(scanner.nextLine());
         }while (choice >= i  || choice < 1);
 
-        long chosenFileID = files.get(choice - 1).getId();
+        File chosenFile = files.get(choice -1);
+        long chosenFileID = chosenFile.getId();
+        if(validate){
+            fileDao.validate(chosenFile);
+            return;
+        }
         System.out.println(files.get(choice - 1));
         displayFileDetail(chosenFileID);
     }
