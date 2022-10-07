@@ -5,58 +5,49 @@ import java.util.HashMap;
 
 public class Patient {
 
-    private String consultationType;
-    private ArrayList<Medicament> medicaments;
-    private String depositionDate;
-    private String consultationDate;
-    private Float montant;
-    private HashMap<String, Float> attachments;
+    private String fullName;
+    private String birthdate;
+    private String email;
+    private String cin;
 
-    public String getConsultationType() {
-        return consultationType;
+
+    public String getFullName() {
+        return fullName;
     }
 
-    public void setConsultationType(String consultationType) {
-        this.consultationType = consultationType;
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 
-    public ArrayList<Medicament> getMedicaments() {
-        return medicaments;
+    public String getBirthdate() {
+        return birthdate;
     }
 
-    public void setMedicaments(ArrayList<Medicament> medicaments) {
-        this.medicaments = medicaments;
+    public void setBirthdate(String birthdate) {
+        this.birthdate = birthdate;
     }
 
-    public String getDepositionDate() {
-        return depositionDate;
+    public String getEmail() {
+        return email;
     }
 
-    public void setDepositionDate(String depositionDate) {
-        this.depositionDate = depositionDate;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    public String getConsultationDate() {
-        return consultationDate;
+    public String getCin() {
+        return cin;
     }
 
-    public void setConsultationDate(String consultationDate) {
-        this.consultationDate = consultationDate;
+    public void setCin(String cin) {
+        this.cin = cin;
     }
 
-    public Float getMontant() {
-        return montant;
-    }
 
-    public void setMontant(Float montant) {
-        this.montant = montant;
-    }
-
-    public HashMap<String, Float> getAttachments() {
-        return attachments;
-    }
-
-    public void setAttachments(HashMap<String, Float> attachments) {
-        this.attachments = attachments;
+    public Patient(String fullName, String birthdate, String email, String cin) {
+        this.fullName = fullName;
+        this.birthdate = birthdate;
+        this.email = email;
+        this.cin = cin;
     }
 }
