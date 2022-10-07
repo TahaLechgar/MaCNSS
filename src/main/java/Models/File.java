@@ -44,6 +44,16 @@ public class File {
         this.conjointID = conjointID;
     }
 
+    @Override
+    public String toString() {
+        return "consultation type : " + constultationType + "\n"
+        + "deposition date : " + depositionDate + "\n"
+        + "repayment price : " + montant + "\n"
+        + "patient Matriculate  : " + patientImm + "\n"
+        + "state : " + state + "\n"
+        + "conjoint : " + ((conjointID == null) ? "non" : conjointID )+ "\n";
+    }
+
     public Long getId() {
         return id;
     }
