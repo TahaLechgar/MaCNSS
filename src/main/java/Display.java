@@ -134,6 +134,11 @@ public class Display {
                         System.out.println("no user was found with the given id");
                     }
                 }
+                if (choice == 3) {
+                    System.out.print("Enter the patient id to delete -> ");
+                    long patientId = Long.parseLong(scanner.nextLine());
+                    userDao.delete(patientId);
+                }
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());

@@ -190,14 +190,14 @@ public class UserDao implements Dao<User> {
     }
 
     @Override
-    public void delete(User user) {
+    public void delete(long id) {
         try {
-            if (user == null)
-                return;
+//            if (id == null)
+//                return;
             Connection connection = ConnectionFactory.getConnection();
-            String query = "delete from User where username like ?";
+            String query = "delete from User where id = ?";
             PreparedStatement statement = connection.prepareStatement(query);
-            statement.setString(1, user.getUsername());
+            statement.setLong(1, id);
             if(statement.executeUpdate() == 1){
                 System.out.println("User deleted successfully!!");
 

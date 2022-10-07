@@ -236,7 +236,7 @@ public class FileDao implements Dao<File> {
     }
 
     @Override
-    public void delete(File file) {
+    public void delete(long id) {
 
     }
 
