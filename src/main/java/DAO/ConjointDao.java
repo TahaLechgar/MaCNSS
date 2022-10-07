@@ -7,7 +7,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.ArrayList;
 import java.util.Optional;
 
 public class ConjointDao implements Dao<Conjoint>{
@@ -17,7 +17,7 @@ public class ConjointDao implements Dao<Conjoint>{
     }
 
     @Override
-    public List<Conjoint> getAll() {
+    public ArrayList<Conjoint> getAll() {
         return null;
     }
 

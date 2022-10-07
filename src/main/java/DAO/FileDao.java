@@ -10,6 +10,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Optional;
 
 public class FileDao implements Dao<File>{
@@ -45,8 +46,6 @@ public class FileDao implements Dao<File>{
             System.out.println(ex.getMessage());
         }
 
-        return null;
-    }
 
     @Override
     public long save(File file) {
