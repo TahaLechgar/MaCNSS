@@ -139,6 +139,10 @@ public class Display {
                     long patientId = Long.parseLong(scanner.nextLine());
                     userDao.delete(patientId);
                 }
+                if (choice == 4) {
+                    List<User> users = userDao.getAll();
+                    System.out.println(users);
+                }
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());
