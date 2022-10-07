@@ -1,11 +1,13 @@
 package DAO;
 
+import Models.Attachment;
 import Models.File;
 
 import Connection.ConnectionFactory;
 import Models.Medicament;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
@@ -18,9 +20,32 @@ public class FileDao implements Dao<File>{
     }
 
     @Override
-    public ArrayList<File> getAll() {
-        return null;
-    }
+    public List<File> getAll() {
+
+        try{
+            Connection connection = ConnectionFactory.getConnection();
+            String sql = "select * from Dossier";
+            PreparedStatement prepareStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            ResultSet resultSet = prepareStatement.executeQuery();
+            List<File> allFiles = new ArrayList<>();
+
+            while(resultSet.next()){
+                String depositDate = resultSet.getString("depositDate");
+                String consultationType = resultSet.getString("consultationType");
+                float repaymentAmount = resultSet.getFloat("repaymentAmount");
+                long patientImm = resultSet.getLong("patientImm");
+                String state = resultSet.getString("state");
+                long id = resultSet.getLong("id");
+                File newFile = new File(id, null, null, consultationType, depositDate, null, repaymentAmount, patientImm, state, null);
+                allFiles.add(newFile);
+            }
+
+            return allFiles;
+
+        }catch(Exception ex){
+            System.out.println(ex.getMessage());
+        }
+
 
     @Override
     public long save(File file) {
@@ -103,7 +128,6 @@ public class FileDao implements Dao<File>{
                     statement.setLong(2, newFileID);
                     statement.setFloat(3, price);
 
-
                     int affectedRows = statement.executeUpdate();
 
                 }catch(Exception ex){
@@ -113,6 +137,97 @@ public class FileDao implements Dao<File>{
             }
         }
     }
+
+    public Optional<ArrayList<Attachment>> getAttachmentsOfFile(long dossierId){
+        try{
+
+            Connection connection = ConnectionFactory.getConnection();
+            String query = "select type, dossierId, price from Attachement where dossierId = ?;";
+
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setLong(1, dossierId);
+
+            ResultSet resultSet = statement.executeQuery();
+
+            ArrayList<Attachment> attachments = new ArrayList<>();
+
+            while(resultSet.next()){
+                float price = resultSet.getFloat("price");
+                String type = resultSet.getString("type");
+                attachments.add(new Attachment(dossierId, price,type));
+            }
+
+            return Optional.of(attachments);
+
+        }catch(Exception ex){
+            System.out.println(ex.getMessage());
+        }
+        return Optional.empty();
+    }
+
+    public Optional<ArrayList<Medicament>> getMedicamentsOfFile(long dossierId){
+        try{
+
+            Connection connection = ConnectionFactory.getConnection();
+            String query = "select Medications.name, Medications.price ,Medications.codeBarre, Medications.repaymentPrice\n" +
+                    "from Medications join Prescription P on Medications.codeBarre = P.medicationId\n" +
+                    "where P.dossierId = ?;";
+
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setLong(1, dossierId);
+
+            ResultSet resultSet = statement.executeQuery();
+
+            ArrayList<Medicament> medicaments = new ArrayList<>();
+
+            while(resultSet.next()){
+                float price = resultSet.getFloat("price");
+                String name = resultSet.getString("name");
+                float repaymentPrice = resultSet.getFloat("repaymentPrice");
+                long codeBarre = resultSet.getLong("codeBarre");
+                medicaments.add(new Medicament(codeBarre, name, price, repaymentPrice));
+            }
+
+            return Optional.of(medicaments);
+
+        }catch(Exception ex){
+            System.out.println(ex.getMessage());
+        }
+        return Optional.empty();
+    }
+
+
+
+    public List<File> getFileOfPatient(long patientImm) {
+
+        try{
+            Connection connection = ConnectionFactory.getConnection();
+            String sql = "select * from Dossier where patientImm = ?";
+            PreparedStatement prepareStatement = connection.prepareStatement(sql);
+            prepareStatement.setLong(1, patientImm);
+            ResultSet resultSet = prepareStatement.executeQuery();
+            List<File> allFiles = new ArrayList<>();
+
+            while(resultSet.next()){
+                String depositDate = resultSet.getString("depositDate");
+                String consultationType = resultSet.getString("consultationType");
+                float repaymentAmount = resultSet.getFloat("repaymentAmount");
+                long patientImmatricule = resultSet.getLong("patientImm");
+                String state = resultSet.getString("state");
+                long id = resultSet.getLong("id");
+                File newFile = new File(id, null, null, consultationType, depositDate, null, repaymentAmount, patientImm, state, null);
+                allFiles.add(newFile);
+            }
+
+            return allFiles;
+
+        }catch(Exception ex){
+            System.out.println(ex.getMessage());
+        }
+
+        return null;
+    }
+
 
     @Override
     public void update(File file, String[] params) {

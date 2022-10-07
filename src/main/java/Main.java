@@ -1,14 +1,16 @@
 
 import Connection.ConnectionFactory;
-import DAO.ConjointDao;
 import DAO.Consultation;
-import Mail.MailSender;
-import Models.Conjoint;
+import DAO.FileDao;
+import Models.Attachment;
+import Models.Medicament;
 import Security.BCrypt;
 
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.Optional;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import DAO.UserDao;
@@ -31,6 +33,7 @@ public class Main {
 
     //        MailSender.sendMail("tahamr08@gmail.com", "Message subject", "Message body body body");
 
+
             String originalPassword = "password";
             String generatedSecuredPasswordHash = BCrypt.hashpw(originalPassword, BCrypt.gensalt(12));
             System.out.println(generatedSecuredPasswordHash);
@@ -40,6 +43,20 @@ public class Main {
 
             Display display = new Display();
             display.addFile();
+
+        Display display = new Display();
+        FileDao fileDao = new FileDao();
+        Optional<ArrayList<Attachment>> attachmentsOptional = fileDao.getAttachmentsOfFile(22);
+        attachmentsOptional.ifPresent(System.out::println);
+        Optional<ArrayList<Medicament>> medicamentsOptional = fileDao.getMedicamentsOfFile(22);
+        medicamentsOptional.ifPresent(System.out::println);
+
+        System.out.println(fileDao.getAll());
+        display.displayAllFiles(1);
+//        display.addFile();
+
+    }
+}
 
     //        System.out.println(statement);
             UserDao userDao = new UserDao();

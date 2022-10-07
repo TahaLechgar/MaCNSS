@@ -10,10 +10,7 @@ import Models.Medicament;
 
 import java.sql.SQLOutput;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Optional;
-import java.util.Scanner;
+import java.util.*;
 
 public class Display {
     private final Scanner scanner = new Scanner(System.in);
@@ -47,6 +44,26 @@ public class Display {
         System.out.println("1 - Display a specific file");
     }
 
+    public void displayAllFiles(Integer patientImm){
+        FileDao fileDao = new FileDao();
+        List<File> files;
+        int i = 1;
+       files = (patientImm == null) ? fileDao.getAll() : fileDao.getFileOfPatient(patientImm);
+        for(File file: files){
+            System.out.println(" " + i + " | " + file.getConstultationType() + " \t| " + file.getDepositionDate() + " | " + file.getState());
+            i++;
+        }
+        System.out.println("Choose a file from the list to see its details : ");
+        int choice;
+        do{
+            choice = Integer.parseInt(scanner.nextLine());
+        }while (choice >= i || choice < 1);
+
+        long chosenFileID = files.get(choice).getId();
+        System.out.println(chosenFileID);
+    }
+
+
     public void addFile(){
         FileDao fileDao = new FileDao();
         Consultation consultation = Consultation.consultations.get(chooseConsultation() - 1);
@@ -79,7 +96,7 @@ public class Display {
                 }
             }
         }
-        fileDao.saveFile(new File(attachments, medicaments, consultationType, depositDate, consultationDate, repaymentAmount, patientImm, String.valueOf(state), conjoint_id));
+        fileDao.saveFile(new File(null, attachments, medicaments, consultationType, depositDate, consultationDate, repaymentAmount, patientImm, String.valueOf(state), conjoint_id));
     }
 
     private ArrayList<Medicament> joinMedicaments() {
@@ -115,7 +132,6 @@ public class Display {
         System.out.println("Enter patient Matriculate :");
         return Long.parseLong(scanner.nextLine());
     }
-
 
 
     private boolean isConjoint(){
