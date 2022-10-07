@@ -149,10 +149,10 @@ public class UserDao implements Dao<User> {
 
             if (rowsAffected == 1) {
                 ResultSet resultSet = statement.getGeneratedKeys();
-                System.out.println("User added successfully!!");
+//                System.out.println("User added successfully!!");
                 return resultSet.getLong("id");
             } else {
-                System.out.println("Something went wrong!!!");
+//                System.out.println("Something went wrong!!!");
                 return -1;
             }
 
