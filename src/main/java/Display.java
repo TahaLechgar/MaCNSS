@@ -59,13 +59,13 @@ public class Display {
                     }
                 } else {
                     System.out.print("Enter patient immatricule -> ");
-                    long imm = scanner.nextLong();
+                    long imm = Long.parseLong(scanner.nextLine());
                     PatientDao patientDao = new PatientDao();
                     Optional<Patient> patient = patientDao.get(imm);
                     if (patient.isEmpty()) {
                         System.out.println("Patient not found!!!");
                     } else {
-                        System.out.println("logged in as patient");
+                        patientWorkFLow(imm);
                     }
                 }
             }
@@ -183,8 +183,8 @@ public class Display {
 
     public void patientMenu() {
         System.out.println("Choose from the list : ");
-        System.out.println("1 - Display all files");
-        System.out.println("2 - Display a specific file");
+        System.out.println("1 - check my files.");
+        System.out.println("0 - Logout.");
     }
 
     public void agentWorkFlow() {
@@ -207,6 +207,19 @@ public class Display {
     }
 
     public void patientWorkFLow(long patientImm) {
+
+        while(true){
+            patientMenu();
+            int choice;
+            do{
+                choice =  Integer.parseInt(scanner.nextLine());
+            }while(choice < 0 || choice >3);
+            if(choice == 0)
+                break;
+
+            if(choice == 1)
+                displayAllFilesForPatient(patientImm);
+        }
 
     }
 
