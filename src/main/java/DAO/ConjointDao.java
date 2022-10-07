@@ -7,7 +7,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
-import java.util.ArrayList;
 import java.util.Optional;
 
 public class ConjointDao implements Dao<Conjoint>{
@@ -21,7 +20,7 @@ public class ConjointDao implements Dao<Conjoint>{
         return null;
     }
 
-    public List<Conjoint> getConjointsForPatient(long patientImm) {
+    public ArrayList<Conjoint> getConjointsForPatient(long patientImm) {
 
         Connection connection = ConnectionFactory.getConnection();
 
