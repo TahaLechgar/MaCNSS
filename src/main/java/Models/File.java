@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class File {
+
+    private Long id;
     private String constultationType;
     private ArrayList<Medicament> medicaments;
     private String depositionDate;
@@ -29,7 +31,8 @@ public class File {
 
 
 
-    public File( HashMap<String, Float> attachments, ArrayList<Medicament> medicaments , String constultationType, String depositionDate, String consultationDate, float montant, long patientImm, String state, Long conjointID) {
+    public File(Long id, HashMap<String, Float> attachments, ArrayList<Medicament> medicaments , String constultationType, String depositionDate, String consultationDate, float montant, long patientImm, String state, Long conjointID) {
+        this.id = id;
         this.constultationType = constultationType;
         this.depositionDate = depositionDate;
         this.consultationDate = consultationDate;
@@ -39,6 +42,10 @@ public class File {
         this.medicaments = medicaments;
         this.attachments = attachments;
         this.conjointID = conjointID;
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public Long getConjointID() {
