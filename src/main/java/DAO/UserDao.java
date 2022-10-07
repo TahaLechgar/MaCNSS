@@ -14,6 +14,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
 
@@ -96,7 +97,7 @@ public class UserDao implements Dao<User> {
     }
 
     @Override
-    public ArrayList<User> getAll() {
+    public List<User> getAll() {
         try{
             Connection connection = ConnectionFactory.getConnection();
             String query = "select username, fullName, type, birthDate, email from User";
