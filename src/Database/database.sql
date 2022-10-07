@@ -24,7 +24,7 @@ create table if not exists Dossier (
                          consultationType varchar(30) not null,
                          depositDate date not null,
                          repaymentAmount float default 0,
-                         foreign key (patientImm) references Patient(immatricule)
+                         foreign key (patientImm) references Patient(immatricule),
 );
 
 create table if not exists Medications (

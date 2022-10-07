@@ -1,9 +1,8 @@
-import DAO.ConjointDao;
-import DAO.Consultation;
-import DAO.FileDao;
-import DAO.MedicamentDao;
+import DAO.*;
 import Enums.Attachments;
 import Enums.State;
+import Enums.UserType;
+import Models.*;
 import Models.Attachment;
 import Models.Conjoint;
 import Models.File;
@@ -16,22 +15,73 @@ import java.util.*;
 public class Display {
     private final Scanner scanner = new Scanner(System.in);
 
-    public void principalMenu(){
+    public void principalMenu() {
         System.out.println("-------- Welcome to MaCNSS --------");
         System.out.println("Login as : ");
         System.out.println("1 - Admin.");
         System.out.println("2 - Agent.");
         System.out.println("3 - Patient.");
+        System.out.println("0 - Quit.");
     }
 
-    public void agentMenu(){
+    public void auth() {
+        try {
+            while (true){
+                principalMenu();
+                int choice = scanner.nextInt();
+                while (choice < 0 || choice > 3) {
+                    principalMenu();
+                    System.out.println("Enter a valid choice!!!");
+                    choice = scanner.nextInt();
+                }
+                if(choice == 0){
+                    break;
+                }
+                scanner.nextLine();
+                if (choice == 1 || choice == 2) {
+                    String username, password;
+                    System.out.print("Enter the username -> ");
+                    username = scanner.nextLine();
+                    System.out.print("Enter the password -> ");
+                    password = scanner.nextLine();
+
+                    UserType type = choice == 1 ? UserType.Admin : UserType.Agent;
+
+                    UserDao userDao = new UserDao();
+                    User user = userDao.getUserForAuth(username, password, type);
+                    if (user != null) {
+                        if (type.toString().equalsIgnoreCase("agent")) {
+                            agentWorkFlow();
+                        } else {
+                            System.out.println("Logged in as admin");
+                        }
+                    }
+                } else {
+                    System.out.print("Enter patient immatricule -> ");
+                    long imm = scanner.nextLong();
+                    PatientDao patientDao = new PatientDao();
+                    Optional<Patient> patient = patientDao.get(imm);
+                    if (patient.isEmpty()) {
+                        System.out.println("Patient not found!!!");
+                    } else {
+                        System.out.println("logged in as patient");
+                    }
+                }
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
+    }
+
+    public void agentMenu() {
         System.out.println("Choose from the list : ");
         System.out.println("1 - Add a file.");
         System.out.println("2 - Display files.");
         System.out.println("3 - Validate a file.");
     }
 
-    public void adminMenu(){
+    public void adminMenu() {
         System.out.println("Choose from the list : ");
         System.out.println("1 - Add an agent.");
         System.out.println("2 - Update an agent.");
@@ -39,7 +89,7 @@ public class Display {
         System.out.println("4 - Display agents.");
     }
 
-    public void patientMenu(){
+    public void patientMenu() {
         System.out.println("Choose from the list : ");
         System.out.println("1 - Display all files");
         System.out.println("2 - Display a specific file");
@@ -84,7 +134,7 @@ public class Display {
         FileDao fileDao = new FileDao();
         List<File> files;
         int i = 1;
-       files = (patientImm == null) ? fileDao.getAll() : fileDao.getFileOfPatient(patientImm);
+        files = (patientImm == null) ? fileDao.getAll() : fileDao.getFileOfPatient(patientImm);
         for(File file: files){
             System.out.println(" " + i + " | " + file.getConstultationType() + " \t| " + file.getDepositionDate() + " | " + file.getState());
             i++;
@@ -293,7 +343,4 @@ public class Display {
 
         return date1.isBefore(currentDateMinus2Months);
     }
-
-
-
 }

@@ -72,7 +72,7 @@ public class Main {
             FileDao fileDao = new FileDao();
             UserDao userDao = new UserDao();
 //            System.out.println(userDao.getAll());
-            display.agentWorkFlow();
+            display.auth();
 //            User user = new User("DeeUser", "new user", "1980-08-06", UserType.Agent, "new.user@email.com");
 //            userDao.save(user);
 //            long id = 13;
