@@ -86,12 +86,11 @@ public class Display {
                 }
                 if (choice == 0)
                     break;
-                if(choice == 1){
+                scanner.nextLine();
+                UserDao userDao = new UserDao();
+                if (choice == 1) {
                     System.out.print("Enter a username -> ");
                     String username = scanner.nextLine();
-
-                    System.out.print("Enter a password -> ");
-                    String password = scanner.nextLine();
 
                     System.out.print("Enter the fullname -> ");
                     String fullname = scanner.nextLine();
@@ -105,17 +104,55 @@ public class Display {
                     UserType type = UserType.Agent;
 
                     User user = new User(username, fullname, birthdate, type, email);
-                    UserDao userDao = new UserDao();
+                    userDao = new UserDao();
                     long res = userDao.save(user);
-                    if(res > 0){
+                    if (res > 0) {
                         System.out.println("Agent added successfully!!");
-                    }else{
+                    } else {
                         System.out.println("Something went wrong!!!");
                     }
                 }
+                if (choice == 2) {
+                    System.out.print("Enter the patient id -> ");
+                    long patientId = scanner.nextLong();
+                    scanner.nextLine();
+                    Optional<User> user = userDao.get(patientId);
+                    if (user.isPresent()) {
+                        String[] params = new String[4];
+                        System.out.println(user.get());
+
+                        params[0] = getNewOrKeepOld(user.get().getFullname(), "fullName");
+
+                        params[1] = getNewOrKeepOld(user.get().getBirthdate(), "Birthdate");
+
+                        params[2] = getNewOrKeepOld(user.get().getEmail(), "Email");
+
+                        params[3] = String.valueOf(patientId);
+
+                        userDao.update(user.get(), params);
+                    } else {
+                        System.out.println("no user was found with the given id");
+                    }
+                }
             }
-        }catch(Exception e){
+        } catch (Exception e) {
             System.out.println(e.getMessage());
+        }
+    }
+
+    private String getNewOrKeepOld(String oldPropertyValue, String propertyName) {
+        try {
+            int choice = 0;
+            if (oldPropertyValue != null) System.out.println("Old " + propertyName + " : " + oldPropertyValue);
+            System.out.println("1 -> Keep old " + propertyName);
+            System.out.println("2 -> enter a new one");
+            choice = Integer.parseInt(scanner.nextLine());
+            if (choice == 1) return oldPropertyValue;
+            System.out.println("Enter the new value for " + propertyName);
+            return scanner.nextLine();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return oldPropertyValue;
         }
     }
 
