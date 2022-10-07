@@ -7,6 +7,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 public class PatientDao implements Dao<Patient> {
@@ -36,7 +37,7 @@ public class PatientDao implements Dao<Patient> {
     }
 
     @Override
-    public ArrayList<Patient> getAll() {
+    public List<Patient> getAll() {
         return null;
     }
 

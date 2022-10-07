@@ -22,14 +22,14 @@ public class FileDao implements Dao<File>{
     @Override
     public List<File> getAll() {
 
-        try{
+        try {
             Connection connection = ConnectionFactory.getConnection();
             String sql = "select * from Dossier";
             PreparedStatement prepareStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             ResultSet resultSet = prepareStatement.executeQuery();
             List<File> allFiles = new ArrayList<>();
 
-            while(resultSet.next()){
+            while (resultSet.next()) {
                 String depositDate = resultSet.getString("depositDate");
                 String consultationType = resultSet.getString("consultationType");
                 float repaymentAmount = resultSet.getFloat("repaymentAmount");
@@ -42,9 +42,11 @@ public class FileDao implements Dao<File>{
 
             return allFiles;
 
-        }catch(Exception ex){
+        } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }
+        return null;
+    }
 
 
     @Override
