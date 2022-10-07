@@ -24,7 +24,7 @@ import java.util.concurrent.ExecutionException;
 
 public class Main {
     public static void main(String[] args) throws SQLException {
-        try{
+//        try{
         /*
             Consultation.getAllConsultationTypes();
             Connection connection = ConnectionFactory.getConnection();
@@ -67,8 +67,12 @@ public class Main {
                 System.out.println("Something went wrong!!!");
             }
             */
+
+            Display display = new Display();
+            FileDao fileDao = new FileDao();
             UserDao userDao = new UserDao();
-            System.out.println(userDao.getAll());
+//            System.out.println(userDao.getAll());
+            display.agentWorkFlow();
 //            User user = new User("DeeUser", "new user", "1980-08-06", UserType.Agent, "new.user@email.com");
 //            userDao.save(user);
 //            long id = 13;
@@ -110,9 +114,9 @@ public class Main {
 //
 //        boolean matched = BCrypt.checkpw(originalPassword, generatedSecuredPasswordHash);
 //        System.out.println(matched);
-        }catch (Exception e){
-            System.out.println(e.getMessage());
-        }
+//        }catch (Exception e){
+//            System.out.println(e.getMessage());
+//        }
     }
 
     // TODO keep this method
