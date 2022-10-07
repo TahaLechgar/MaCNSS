@@ -16,6 +16,7 @@ import java.util.Optional;
 public class FileDao implements Dao<File> {
     @Override
     public Optional<File> get(long id) {
+
         return Optional.empty();
     }
 
@@ -36,7 +37,8 @@ public class FileDao implements Dao<File> {
                 long patientImm = resultSet.getLong("patientImm");
                 String state = resultSet.getString("state");
                 long id = resultSet.getLong("id");
-                File newFile = new File(id, null, null, consultationType, depositDate, null, repaymentAmount, patientImm, state, null);
+                Long conjoint_id = (resultSet.getLong("conjoint_ID") == 0) ? null : resultSet.getLong("conjoint_ID");
+                File newFile = new File(id, null, null, consultationType, depositDate, null, repaymentAmount, patientImm, state, conjoint_id);
                 allFiles.add(newFile);
             }
 
@@ -70,7 +72,6 @@ public class FileDao implements Dao<File> {
 
 
             int affectedRows = prepareStatement.executeUpdate();
-            System.out.println("Affected rows : " + affectedRows);
             try (ResultSet generatedKeys = prepareStatement.getGeneratedKeys()) {
                 if (generatedKeys.next()) {
                     return generatedKeys.getLong(1);
@@ -214,7 +215,8 @@ public class FileDao implements Dao<File> {
                 long patientImmatricule = resultSet.getLong("patientImm");
                 String state = resultSet.getString("state");
                 long id = resultSet.getLong("id");
-                File newFile = new File(id, null, null, consultationType, depositDate, null, repaymentAmount, patientImm, state, null);
+                Long conjoint_id = (resultSet.getLong("conjoint_ID") == 0) ? null : resultSet.getLong("conjoint_ID");
+                File newFile = new File(id, null, null, consultationType, depositDate, null, repaymentAmount, patientImm, state, conjoint_id);
                 allFiles.add(newFile);
             }
 

@@ -4,6 +4,7 @@ import DAO.FileDao;
 import DAO.MedicamentDao;
 import Enums.Attachments;
 import Enums.State;
+import Models.Attachment;
 import Models.Conjoint;
 import Models.File;
 import Models.Medicament;
@@ -41,10 +42,45 @@ public class Display {
     public void patientMenu(){
         System.out.println("Choose from the list : ");
         System.out.println("1 - Display all files");
-        System.out.println("1 - Display a specific file");
+        System.out.println("2 - Display a specific file");
     }
 
-    public void displayAllFiles(Integer patientImm){
+    public void agentWorkFlow(){
+
+        while(true){
+            agentMenu();
+            int choice;
+            do{
+                choice =  Integer.parseInt(scanner.nextLine());
+            }while(choice < 0 || choice >3);
+            if(choice == 0){
+                break;
+            }
+            switch (choice){
+                case 1 -> addFile();
+                case 2 -> displayAllFilesForAgent();
+                case 3 -> validateFile();
+            }
+        }
+    }
+
+    public void patientWorkFLow(long patientImm){
+
+    }
+
+    private void displayAllFilesForAgent(){
+        displayAllFiles(null, false);
+    }
+    private void displayAllFilesForPatient(long patientImm){
+        displayAllFiles(patientImm, false);
+    }
+
+    private void validateFile(){
+        displayAllFiles(null, true);
+    }
+
+    public void displayAllFiles(Long patientImm, boolean validate){
+
         FileDao fileDao = new FileDao();
         List<File> files;
         int i = 1;
@@ -57,14 +93,42 @@ public class Display {
         int choice;
         do{
             choice = Integer.parseInt(scanner.nextLine());
-        }while (choice >= i || choice < 1);
+        }while (choice >= i  || choice < 1);
 
-        long chosenFileID = files.get(choice).getId();
-        System.out.println(chosenFileID);
+        File chosenFile = files.get(choice -1);
+        long chosenFileID = chosenFile.getId();
+        if(validate){
+            fileDao.validate(chosenFile);
+            return;
+        }
+        System.out.println(files.get(choice - 1));
+        displayFileDetail(chosenFileID);
     }
 
+    public void displayFileDetail(long fileId){
+        FileDao fileDao = new FileDao();
+
+        System.out.println("Attachments :");
+        Optional<ArrayList<Attachment>> attachmentsOptional = fileDao.getAttachmentsOfFile(fileId);
+        attachmentsOptional.ifPresent(attachments -> {
+            for (Attachment attachment: attachments){
+                System.out.println(attachment.getType() + " price : " + attachment.getPrice());
+            }
+        });
+        System.out.println();
+        System.out.println("Medicaments :");
+        Optional<ArrayList<Medicament>> medicamentsOptional = fileDao.getMedicamentsOfFile(fileId);
+        medicamentsOptional.ifPresent(medicaments -> {
+            for (Medicament medicament: medicaments){
+                System.out.println(medicament.getMedicamentName() + " repayment price : " + medicament.getPrixRemboursement());
+            }
+        });
+        System.out.println();
+
+    }
 
     public void addFile(){
+
         FileDao fileDao = new FileDao();
         Consultation consultation = Consultation.consultations.get(chooseConsultation() - 1);
         String consultationType = consultation.getType();
@@ -73,7 +137,6 @@ public class Display {
         long patientImm = enterPatientImm();
         long conjointIdCheck = conjoint(patientImm);
         Long conjoint_id = ( conjointIdCheck == 0) ? null : conjointIdCheck;
-        System.out.println("conjoint id : " + conjoint_id);
         State state = State.PENDING;
         float repaymentAmount = consultation.getRefundPrice();
 
@@ -97,6 +160,7 @@ public class Display {
             }
         }
         fileDao.saveFile(new File(null, attachments, medicaments, consultationType, depositDate, consultationDate, repaymentAmount, patientImm, String.valueOf(state), conjoint_id));
+        System.out.println("File added successfully !");
     }
 
     private ArrayList<Medicament> joinMedicaments() {
@@ -174,6 +238,7 @@ public class Display {
 
     private int chooseConsultation(){
         System.out.println("Choose consultation type : ");
+        Consultation.getAllConsultationTypes();
         int i = 1;
         for(Consultation consultaion: Consultation.consultations){
             System.out.println(" " + i + " - " + consultaion.getType());
@@ -228,5 +293,7 @@ public class Display {
 
         return date1.isBefore(currentDateMinus2Months);
     }
+
+
 
 }

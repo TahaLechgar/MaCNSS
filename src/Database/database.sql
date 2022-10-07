@@ -58,7 +58,9 @@ create table if not exists User (
                       username varchar(20) unique not null,
                       password varchar(40) not null,
                       fullName varchar(100) not null,
-                      birthDate date not null
+                      birthDate date not null,
+                      email varchar(30) not null,
+                      type enum('agent', 'admin') default 'agent'
 );
 
 insert ignore into Medications (codeBarre, name, price, repaymentPrice) values (6118000010050, 'ABBOTICINE', 26.80, 26.80);
