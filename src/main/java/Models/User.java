@@ -57,7 +57,8 @@ public class User {
 
     @Override
     public String toString() {
-        return "username : " + username
+        return "\n-------------------------------"
+                + "\nusername : " + username
                 + "\nfullname : " + fullname
                 + "\nbirthdate : " + birthdate
                 + "\ntype : " + type

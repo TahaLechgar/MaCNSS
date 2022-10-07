@@ -52,7 +52,7 @@ public class MedicamentDao implements Dao<Medicament>{
     }
 
     @Override
-    public void delete(Medicament medicament) {
+    public void delete(long id) {
 
     }
 

@@ -52,7 +52,7 @@ public class PatientDao implements Dao<Patient> {
     }
 
     @Override
-    public void delete(Patient patient) {
+    public void delete(long id) {
 
     }
 }

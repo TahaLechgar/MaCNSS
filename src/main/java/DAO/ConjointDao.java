@@ -66,7 +66,7 @@ public class ConjointDao implements Dao<Conjoint>{
     }
 
     @Override
-    public void delete(Conjoint conjoint) {
+    public void delete(long id) {
 
     }
 }
